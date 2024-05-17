@@ -2030,10 +2030,10 @@ class Player:
                 )
             )
             and not self.can_escape(card_name)
-        ) or card_name == "Mira":
+        ):
             print("Cant defend")
             if not no_dmg:
-                self.take_damage_response(strength=2)
+                self.take_damage_response()
             else:
                 self.take_no_damage_response()
             return False
@@ -2081,7 +2081,8 @@ class Player:
                 if self.can_escape(card_name, with_mancato=False):
                     self.expected_response.append(tvosc.Fuga(0, 0).name)
                 if not no_dmg:
-                    self.on_failed_response_cb = self.take_damage_response
+                    strength = 1 if not card_name == "Mira" else 2
+                    self.on_failed_response_cb = self.take_damage_response(strength=strength)
                 else:
                     self.on_failed_response_cb = self.take_no_damage_response
             return True
