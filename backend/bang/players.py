@@ -2033,7 +2033,7 @@ class Player:
         ) or card_name == "Mira":
             print("Cant defend")
             if not no_dmg:
-                self.take_damage_response()
+                self.take_damage_response(strength=2)
             else:
                 self.take_no_damage_response()
             return False
@@ -2192,8 +2192,8 @@ class Player:
                     )
                     break
 
-    def take_damage_response(self):
-        self.lives -= 1
+    def take_damage_response(self, strength: int = 1):
+        self.lives -= strength
         G.sio.emit("hurt", room=self.sid, data=f"")
         if self.lives > 0:
             if self.character.check(self.game, chars.BartCassidy):
